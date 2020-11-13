@@ -26,7 +26,8 @@ class CNNSpider(scrapy.Spider):
                 # The [:-1] is so we can ignore the last text which is 'Tópicos'.
                 return response.css(query).getall()[:-1] 
         def extract_date(url):
-            # YYYY/MM/DD format
+            # Every news article url has the date on it.
+            # it is on the YYYY/MM/DD format
             return url.split('/')[4:7]
 
         yield {
