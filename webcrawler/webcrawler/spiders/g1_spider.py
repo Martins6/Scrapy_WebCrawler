@@ -24,6 +24,6 @@ class g1Spider(scrapy.Spider):
 
         yield {
             'title': extract_with_css('.content-head__title'),
-            'birthdate': extract_with_css('.author-born-date::text'),
-            'bio': extract_with_css('.author-description::text'),
+            'subtitle': extract_with_css('.content-head__subtitle'),
+            'corpus': extract_with_css('.author-description::text'),
         }

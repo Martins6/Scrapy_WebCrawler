@@ -12,4 +12,11 @@ Falta decidir o tema dos sites e o exato framework do Web Crawler.
 
 Optei por 3 sites de notícias famosos no Brasil: BBC Brasil, CNN Brasil e Globo (G1).
 
-Também decidir usar o framework Scrapy (talvez com o parser de html Beautifulsoup), sendo uma biblioteca pura em Python.
+Também decidir usar o framework Scrapy (talvez com o parser de html Beautifulsoup), sendo uma biblioteca pura em Python. Estou utilizando também o SelectorGadjet (o qual já estava instalado em meu browser) para poder auxiliar na pesquisa dos elementos em CSS ou HTML.
+
+Revisei e aprendi novas técnicas utilizando o Scrapy através da documentação da biblioteca.
+
+Tentei aplicar no site do G1, porém percebi que algumas variáveis dentro de cada artigo de jornal poderia ser nova. Não há um objeto em comum no corpo do texto. Deixarei em off, por enquanto.
+
+## 13/11
+
