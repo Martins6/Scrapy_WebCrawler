@@ -18,5 +18,20 @@ Revisei e aprendi novas técnicas utilizando o Scrapy através da documentação
 
 Tentei aplicar no site do G1, porém percebi que algumas variáveis dentro de cada artigo de jornal poderia ser nova. Não há um objeto em comum no corpo do texto. Deixarei em off, por enquanto.
 
+Comecei a criar a Spider da CNN, porém não consegui terminar hoje.
+
 ## 13/11
 
+Terminei a spider da CNN, consegui retirar os dados requisitado das páginas.
+
+Percebi que li errado as requisições do projeto pois o documento especifica dizendo: "dados de portais concorrentes em uma _área específica_ (ex.: games, tech, carros)", eu não posso utilizar os sites da BBC, CNN, etc.. Irei salvar a Spider da CNN para projetos futuros.
+
+Pensei novamente e escolhi sites de notícias da cultura Geek. São estes os três (com hyperlink):
+
+1. [Jornada Geek](https://www.jornadageek.com.br/novidades/)
+2. [Jovem Nerd](https://jovemnerd.com.br/)
+3. [TecMundo](https://www.tecmundo.com.br/cultura-geek) 
+
+Terminei a construção da Spider do Jornada Geek, faltando apenas a formatação de datas.
+
+## 14/11
