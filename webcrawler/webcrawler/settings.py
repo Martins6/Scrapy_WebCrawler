@@ -19,6 +19,20 @@ NEWSPIDER_MODULE = 'webcrawler.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+# for chrome driver  
+# from shutil import which 
+from webdriver_manager.chrome import ChromeDriverManager
+  
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = ChromeDriverManager().install() #which('chromedriver') 
+SELENIUM_DRIVER_ARGUMENTS=['--headless']   
+  
+DOWNLOADER_MIDDLEWARES = { 
+     'scrapy_selenium.SeleniumMiddleware': 800
+} 
+
+
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 

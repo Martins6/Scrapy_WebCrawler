@@ -1,10 +1,13 @@
 import scrapy
 import datetime
-from webcrawler.my_utils import month_pt_to_en 
+from webcrawler import my_utils 
+from scrapy_selenium import SeleniumRequest
 
 
-class JNGK_Spider(scrapy.Spider):
+class Jornada_Geek_Spider(scrapy.Spider):
     name = "jornadageek"
+
+    
     start_urls = [
         'https://www.jornadageek.com.br/novidades/'
     ]
@@ -12,9 +15,9 @@ class JNGK_Spider(scrapy.Spider):
     def parse(self, response):
         news_titles_href = response.css('.td-module-title a::attr(href)')
         if len(news_titles_href) == 0:
-            raise Exception("Missing links from the jornadageek initial site, or the site structure has changed.")
+            raise Exception("Missing links from the jornadageek initial site.")
+        
         n_news = 0
-
         for href in news_titles_href.getall():
             #href = response.urljoin(href)
             yield scrapy.Request(href, self.parse_news_article)
@@ -32,7 +35,7 @@ class JNGK_Spider(scrapy.Spider):
             """ 
             # Transforming into a list [jul, 8, 2020]
             date_list = date_string.replace(',', '').split(' ')
-            date_list[0] = month_pt_to_en(date_list[0])
+            date_list[0] = my_utils.month_pt_to_en(date_list[0])
             # Transforming 'Jul' into 7
             date_list[0] = datetime.datetime.strptime(date_list[0], "%b").month
             # Changing format from MM/DD/YYYY to be DD/MM/YYYY.
@@ -43,20 +46,26 @@ class JNGK_Spider(scrapy.Spider):
 
             return date_list
 
-        def extract_with_css(query, obj = None):
+        def extract(query, obj = None):
             if obj is None:
                 return response.css(query).get(default='').strip()
             elif obj == 'corpus':
-                return glue_together_text(response.css(query).getall())
+                corpus = response.xpath(query).getall()
+                try:
+                    corpus = my_utils.delete_since('Confira também:\xa0', corpus)
+                except:
+                    print('NÃO DEU BOM')
+                
+                return glue_together_text(corpus)
             elif obj == 'date':
                 return format_date(response.css(query).get(default='').strip())
 
         yield {
-            'title': extract_with_css('.tdb-title-text::text'),
-            'subtitle': extract_with_css('p:nth-child(1)::text'),
-            'corpus': extract_with_css('p::text', 'corpus'),
-            'author': extract_with_css('.tdb-author-name::text'),
-            'date': extract_with_css('.td-module-date::text', 'date'),
-            'tag': extract_with_css('.tdb-tags a::text'),
+            'title': extract('.tdb-title-text::text'),
+            'subtitle': extract('p:nth-child(1)::text'),
+            'corpus': extract('.//p//text()|//h3//strong//text()', 'corpus'),
+            'author': extract('.tdb-author-name::text'),
+            'date': extract('.td-module-date::text', 'date'),
+            'tag': extract('.tdb-tags a::text'),
             'url': response.url
         }
