@@ -19,5 +19,10 @@ def month_pt_to_en(month_pt, abv = True):
     return en_month_abv[index]
 
 def delete_since(arg, ls):
-    index = ls.index(arg)
+    where_arg_is = map(lambda x: arg in x, ls)
+    index = list(where_arg_is).index(True)
     return ls[:index]
+
+ls = ['Hello', 'Confira também: qualquer besteira', 'Baby']
+
+print(delete_since('Confira também:', ls))

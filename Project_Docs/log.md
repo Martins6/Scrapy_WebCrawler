@@ -29,9 +29,27 @@ Percebi que li errado as requisições do projeto pois o documento especifica di
 Pensei novamente e escolhi sites de notícias da cultura Geek. São estes os três (com hyperlink):
 
 1. [Jornada Geek](https://www.jornadageek.com.br/novidades/)
-2. [Jovem Nerd](https://jovemnerd.com.br/)
+2. [Jovem Nerd](https://jovemnerd.com.br/nerdbunker/)
 3. [TecMundo](https://www.tecmundo.com.br/cultura-geek) 
 
 Terminei a construção da Spider do Jornada Geek, faltando apenas a formatação de datas.
 
+A forma de construção das Spiders funciona da seguinte forma: do site inicial encontramos os links para as notícias. Entramos nos artigos e extraimos o que desejamos.
+
 ## 14/11
+
+Terminei a formatação das datas da Spider da Jornada Geek, e comecei a construção da Spider do Jovem Nerd. 
+
+Terminei a Spider do Jovem Nerd.
+
+Ao revisar a spider da Jornada Geek, rodando alguns testes, percebi que o Scrapy só consegue obter pedaços de muitos artigos. Precisarei descer a tela de cada página para ele carregar o restante dos artigos e eu conseguir extrair. Acho que usarei o Scrapy-Selenium para isto, o qual é uma integração fluída entre os dois frameworks.
+
+## 15/11
+
+Dia de Igreja e de descanso!
+
+## 16/11
+
+Desisti de tentar o Scrapy-Selenium
+
+Terminei o Spider do Jovem Nerd, embora tive que sacrificar a rapidez com o uso de Selenium, pois o seus artigos são carregados em pedações, é preciso rolar a tela para baixo para encontrar o fim do artigo. Isso é extremamente lento, porém, é o único modo que pensei para conseguir extrair o artigo por inteiro.
