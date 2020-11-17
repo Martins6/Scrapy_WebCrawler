@@ -4,7 +4,7 @@ from webcrawler import my_utils
 
 
 class Jovem_Nerd_Spider(scrapy.Spider):
-    name = "jovemnerd"
+    name = "jovemndygderd"
     start_urls = [
         'https://jovemnerd.com.br/nerdbunker/'
     ]

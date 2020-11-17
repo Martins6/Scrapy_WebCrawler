@@ -21,7 +21,7 @@ ROBOTSTXT_OBEY = True
 
 # for chrome driver  
 # from shutil import which 
-""" from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
   
 SELENIUM_DRIVER_NAME = 'chrome'
 SELENIUM_DRIVER_EXECUTABLE_PATH = ChromeDriverManager().install() 
@@ -29,7 +29,7 @@ SELENIUM_DRIVER_ARGUMENTS=['--headless']
   
 DOWNLOADER_MIDDLEWARES = { 
      'scrapy_selenium.SeleniumMiddleware': 800
-}  """
+} 
 
 
 

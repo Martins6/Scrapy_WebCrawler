@@ -3,34 +3,14 @@ import datetime
 from webcrawler import my_utils 
 
 from time import sleep
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options as chrome_options
-from webdriver_manager.chrome import ChromeDriverManager
+from scrapy_selenium import SeleniumRequest 
 
-def setup_selenium_driver():
-    """Setting up a selenium driver with Google Chrome. It can be modified to use for an server.
-    Or with different browsers: Firefox, Chromium, etc.
-    """
 
-    options = chrome_options()
-    # silent or without browser mode
-    options.add_argument('--headless')
-    # no printing log in the terminal
-    options.add_argument("--log-level=3")
-    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), \
-         chrome_options=options)
-
-    return(driver)
-
-def selenium_extract_until_keyword_find(driver, url, keyword, query, xpath = True):
+def selenium_extract_until_keyword_find(driver,keyword, query, xpath = True):
     """If we need to activate a JavaScript action, like scrolling down
     to find the end of the article, we must use Selenium to do such a task.
     The bad thing is that it is slow. Really slow.
     """
-    # Opening the url in the browser
-    driver.get(url)
-    sleep(3)
-
     # We must clean our query to not retrieve text only but retrieve the html block.
     query = query.replace('//text()', '')
     
@@ -42,7 +22,7 @@ def selenium_extract_until_keyword_find(driver, url, keyword, query, xpath = Tru
     
     def keyword_in_list(keyword, ls):
         return (True in map(lambda x: keyword in x, ls))
-
+    
     safeguard = 0
     while not keyword_in_list(keyword, corpus) and safeguard < 3:
         # Scrolling down
@@ -55,21 +35,20 @@ def selenium_extract_until_keyword_find(driver, url, keyword, query, xpath = Tru
             corpus = [result.text for result in driver.find_elements_by_css_selector(query)]
 
         safeguard += 1
+    print(f"DENTRO DA FUNÇÃO: {driver}")
     if safeguard == 3:
-        # Closing webdriver
-        driver.close()
         raise Exception('There is no Keyword in the page.')
-    # Closing webdriver
-    driver.quit()
     return corpus
-    
 
 class Jornada_Geek_Spider(scrapy.Spider):
     name = "jornadageek"
-  
-    start_urls = [
-        'https://www.jornadageek.com.br/novidades/'
-    ]
+
+    def start_requests(self): 
+        yield SeleniumRequest( 
+            url = 'https://www.jornadageek.com.br/novidades/', 
+            wait_time = 2, 
+            callback = self.parse, 
+            dont_filter = True) 
 
     def parse(self, response):
         news_titles_href = response.css('.td-module-title a::attr(href)')
@@ -78,8 +57,7 @@ class Jornada_Geek_Spider(scrapy.Spider):
         
         n_news = 0
         for href in news_titles_href.getall():
-            #href = response.urljoin(href)
-            yield scrapy.Request(href, self.parse_news_article)
+            yield SeleniumRequest(url=href, callback=self.parse_news_article)
             n_news += 1
         print(f'NEWS N: {n_news}')
 
@@ -115,8 +93,8 @@ class Jornada_Geek_Spider(scrapy.Spider):
                 if keyword in corpus:
                     corpus = my_utils.delete_since(keyword, corpus)
                 else:
-                    corpus = selenium_extract_until_keyword_find(setup_selenium_driver(), \
-                        response.url, \
+                    print(f"FORA DA FUNÇÃO: {response.request.meta['driver']}")
+                    corpus = selenium_extract_until_keyword_find(response.request.meta['driver'],
                         keyword, \
                         query)
                     corpus = my_utils.delete_since(keyword, corpus)
