@@ -18,11 +18,10 @@ def month_pt_to_en(month_pt, abv = True):
 
     return en_month_abv[index]
 
-def delete_since(arg, ls):
-    where_arg_is = map(lambda x: arg in x, ls)
-    index = list(where_arg_is).index(True)
-    return ls[:index]
-
-ls = ['Hello', 'Confira também: qualquer besteira', 'Baby']
-
-print(delete_since('Confira também:', ls))
+def delete_since(arg, obj):
+    if type(obj) == str:
+        index = obj.index(arg)
+    else:
+        where_arg_is = map(lambda x: arg in x, obj)
+        index = list(where_arg_is).index(True)
+    return obj[:index]

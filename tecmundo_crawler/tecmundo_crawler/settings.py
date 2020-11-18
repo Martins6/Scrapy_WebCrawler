@@ -1,4 +1,4 @@
-# Scrapy settings for webcrawler project
+# Scrapy settings for tecmundo_crawler project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,31 +7,17 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'webcrawler'
+BOT_NAME = 'tecmundo_crawler'
 
-SPIDER_MODULES = ['webcrawler.spiders']
-NEWSPIDER_MODULE = 'webcrawler.spiders'
+SPIDER_MODULES = ['tecmundo_crawler.spiders']
+NEWSPIDER_MODULE = 'tecmundo_crawler.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'webcrawler (+http://www.yourdomain.com)'
+#USER_AGENT = 'tecmundo_crawler (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
-
-# for chrome driver  
-# from shutil import which 
-from webdriver_manager.chrome import ChromeDriverManager
-  
-SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = ChromeDriverManager().install() 
-SELENIUM_DRIVER_ARGUMENTS=['--headless']   
-  
-DOWNLOADER_MIDDLEWARES = { 
-     'scrapy_selenium.SeleniumMiddleware': 800
-} 
-
-
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -59,13 +45,13 @@ DOWNLOADER_MIDDLEWARES = {
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'webcrawler.middlewares.WebcrawlerSpiderMiddleware': 543,
+#    'tecmundo_crawler.middlewares.TecmundoCrawlerSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'webcrawler.middlewares.WebcrawlerDownloaderMiddleware': 543,
+#    'tecmundo_crawler.middlewares.TecmundoCrawlerDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -77,7 +63,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'webcrawler.pipelines.WebcrawlerPipeline': 300,
+#    'tecmundo_crawler.pipelines.TecmundoCrawlerPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

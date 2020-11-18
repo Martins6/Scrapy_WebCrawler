@@ -50,6 +50,8 @@ Dia de Igreja e de descanso!
 
 ## 16/11
 
-Desisti de tentar o Scrapy-Selenium
+Desisti de tentar o Scrapy-Selenium, pois demorou 5 minutos, onde antes demorava segundos para extrair os dados. 
 
-Terminei o Spider do Jovem Nerd, embora tive que sacrificar a rapidez com o uso de Selenium, pois o seus artigos são carregados em pedações, é preciso rolar a tela para baixo para encontrar o fim do artigo. Isso é extremamente lento, porém, é o único modo que pensei para conseguir extrair o artigo por inteiro.
+Comecei a implementar "na mão" um sistema com Selenium. Montei duas funções: uma para criar o driver com Selenium, e o outro para extrair o que precisava da página. Achei que abrir e fechar o browser somente quando precisasse ia aumentar a velocidade. Demorou 27 minutos. Voltei para o Scrapy-Selenium.
+
+Sendo assim, terminei a Spider do Jornada Geek de maneira completa.

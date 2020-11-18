@@ -1,16 +1,19 @@
 import scrapy
 import datetime
-from webcrawler import my_utils 
+from jornada_geek_crawler import my_utils 
 
 from time import sleep
 from scrapy_selenium import SeleniumRequest 
 
 
-def selenium_extract_until_keyword_find(driver,keyword, query, xpath = True):
+def selenium_extract_until_keyword_find(driver, url, keyword, query, xpath = True):
     """If we need to activate a JavaScript action, like scrolling down
     to find the end of the article, we must use Selenium to do such a task.
     The bad thing is that it is slow. Really slow.
     """
+    driver.get(url)
+    sleep(2)
+
     # We must clean our query to not retrieve text only but retrieve the html block.
     query = query.replace('//text()', '')
     
@@ -35,7 +38,6 @@ def selenium_extract_until_keyword_find(driver,keyword, query, xpath = True):
             corpus = [result.text for result in driver.find_elements_by_css_selector(query)]
 
         safeguard += 1
-    print(f"DENTRO DA FUNÇÃO: {driver}")
     if safeguard == 3:
         raise Exception('There is no Keyword in the page.')
     return corpus
@@ -55,16 +57,13 @@ class Jornada_Geek_Spider(scrapy.Spider):
         if len(news_titles_href) == 0:
             raise Exception("Missing links from the jornadageek initial site.")
         
-        n_news = 0
         for href in news_titles_href.getall():
             yield SeleniumRequest(url=href, callback=self.parse_news_article)
-            n_news += 1
-        print(f'NEWS N: {n_news}')
 
     def parse_news_article(self, response):
 
         def glue_together_text(ls):
-            paragraph_separator = '\n'
+            paragraph_separator = '.'
             return paragraph_separator.join(ls)
 
         def format_date(date_string):
@@ -93,23 +92,29 @@ class Jornada_Geek_Spider(scrapy.Spider):
                 if keyword in corpus:
                     corpus = my_utils.delete_since(keyword, corpus)
                 else:
-                    print(f"FORA DA FUNÇÃO: {response.request.meta['driver']}")
                     corpus = selenium_extract_until_keyword_find(response.request.meta['driver'],
+                        response.url, \
                         keyword, \
                         query)
                     corpus = my_utils.delete_since(keyword, corpus)
                 
-                return glue_together_text(corpus)
+                return len(corpus), glue_together_text(corpus)
 
             elif obj == 'date':
                 return format_date(response.css(query).get(default='').strip())
-
+                
+        n_paragraphs, corpus = extract(".//p//text()|//*[contains(text(),'Confira também:')]", 'corpus')
+        
+        print(f"SCRAPY: {response.url}")
+        print(f"SELENIUM: {response.request.meta['driver'].current_url}")
+        print(f"COERENCE: {response.request.meta['driver'].current_url == response.url}")
         yield {
-            'corpus': extract(".//p//text()|//*[contains(text(),'Confira também:')]", 'corpus'),
+            'corpus': corpus,
             'title': extract('.tdb-title-text::text'),
             'subtitle': extract('p:nth-child(1)::text'),
             'author': extract('.tdb-author-name::text'),
             'date': extract('.td-module-date::text', 'date'),
             'tag': extract('.tdb-tags a::text'),
-            'url': response.url
+            'url': response.url,
+            'n_paragraphs': n_paragraphs
         }

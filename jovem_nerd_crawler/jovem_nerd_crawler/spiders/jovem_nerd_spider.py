@@ -1,7 +1,6 @@
 import scrapy
 import datetime
-from webcrawler import my_utils 
-
+from jovem_nerd_crawler import my_utils 
 
 class Jovem_Nerd_Spider(scrapy.Spider):
     name = "jovemnerd"
@@ -14,11 +13,8 @@ class Jovem_Nerd_Spider(scrapy.Spider):
         if len(news_titles_href) == 0:
             raise Exception("Missing links from the Jovem Nerd initial site.")
 
-        n_news = 0
         for href in news_titles_href.getall():
             yield scrapy.Request(href, self.parse_news_article)
-            n_news += 1
-        print(f'NEWS N: {n_news}')
 
     def parse_news_article(self, response):
 
@@ -48,17 +44,21 @@ class Jovem_Nerd_Spider(scrapy.Spider):
                 # Getting and filtering the first component
                 # Because it is already the subtitle.
                 corpus = response.css(query).getall()[1:]
+                print(corpus)
                 corpus = my_utils.delete_since('Leia mais sobre: ', corpus)
-                return glue_together_text(corpus)
+                return len(corpus), glue_together_text(corpus)
             elif obj == 'date':
                 return format_date(response.css(query).get(default='').strip())
+
+        n_paragraph, corpus = extract('p::text, p a::text', 'corpus')
 
         yield {
             'title': extract('.title::text'),
             'subtitle': extract('.excerpt::text'),
-            'corpus': extract('p::text, p a::text', 'corpus'),
+            'corpus': corpus,
             'author': extract('.author a::text'),
             'date': extract('.postedon::text', 'date'),
             'tag': extract('.post-tags a::text'),
-            'url': response.url
+            'url': response.url,
+            'n_paragraphs': n_paragraph
         }
