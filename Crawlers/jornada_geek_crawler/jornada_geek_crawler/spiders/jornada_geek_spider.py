@@ -83,9 +83,9 @@ class Jornada_Geek_Spider(scrapy.Spider):
 
         def extract(query, obj = None):
             if obj is None:
-                return response.css(query).get(default='').strip()
+                return response.selector.css(query).get(default='').strip()
             elif obj == 'corpus':
-                corpus = response.xpath(query).getall()
+                corpus = response.selector.xpath(query).getall()
 
                 keyword = 'Confira também:'
                 if keyword in corpus:
@@ -100,20 +100,17 @@ class Jornada_Geek_Spider(scrapy.Spider):
                 return len(corpus), glue_together_text(corpus)
 
             elif obj == 'date':
-                return format_date(response.css(query).get(default='').strip())
+                return format_date(response.selector.css(query).get(default='').strip())
                 
         n_paragraphs, corpus = extract(".//p//text()|//*[contains(text(),'Confira também:')]", 'corpus')
         
-        print(f"SCRAPY: {response.url}")
-        print(f"SELENIUM: {response.request.meta['driver'].current_url}")
-        print(f"COERENCE: {response.request.meta['driver'].current_url == response.url}")
         yield {
+            'title': extract('.td-post-title .entry-title::text'),
+            'subtitle': extract('.td-post-sub-title::text'),
             'corpus': corpus,
-            'title': extract('.tdb-title-text::text'),
-            'subtitle': extract('p:nth-child(1)::text'),
-            'author': extract('.tdb-author-name::text'),
-            'date': extract('.td-module-date::text', 'date'),
-            'tag': extract('.tdb-tags a::text'),
+            'author': extract('.td-post-author-name a::text'),
+            'date': extract('.td-post-title .td-module-date::text', 'date'),
+            'tag': extract('.entry-category a::text'),
             'url': response.url,
             'n_paragraphs': n_paragraphs
         }

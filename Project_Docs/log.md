@@ -52,6 +52,19 @@ Dia de Igreja e de descanso!
 
 Desisti de tentar o Scrapy-Selenium, pois demorou 5 minutos, onde antes demorava segundos para extrair os dados. 
 
-Comecei a implementar "na mão" um sistema com Selenium. Montei duas funções: uma para criar o driver com Selenium, e o outro para extrair o que precisava da página. Achei que abrir e fechar o browser somente quando precisasse ia aumentar a velocidade. Demorou 27 minutos. Voltei para o Scrapy-Selenium.
+Comecei a implementar "na mão" um sistema com Selenium. Montei duas funções: uma para criar o driver com Selenium, e o outro para extrair o que precisava da página. Achei que abrir e fechar o browser somente quando precisasse ia aumentar a velocidade. Demorou 27 minutos para aproximadamente 28 páginas. Voltei para o Scrapy-Selenium.
 
 Sendo assim, terminei a Spider do Jornada Geek de maneira completa.
+
+# 17/11
+
+Percebi alguns erros na implementação do Scrapy-Selenium. Ele está repetindo os dados extraídos e não sei o porquê. Fiquei tentando consertar eles.
+
+# 18/11
+
+Ainda tentei consertar os erros do Scrapy-Selenium, porém desisti e ficarei apenas com os dois sites: Jovem Nerd e Tecmundo. Pois, o Scrapy Selenium está dando erros que não sei explicar e com Selenium puro está demorando 40 segundo por página, muito tempo. Manterei o arquivo para estudos futuros
+
+Terminei a implementação do Scrapy com o Tecmundo.
+
+Decidi usar Docker com MySql para implementar o 
+
