@@ -22,7 +22,6 @@ class Jovem_Nerd_Spider(scrapy.Spider):
             paragraph_separator = '\n'
             return paragraph_separator.join(ls)
 
-
         def format_date(date_string):
             """ Transform this '12 de novembro de 2020 às 17h13 • Atualizado há 1 dia'
             into this [12,11,2020]'

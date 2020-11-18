@@ -49,8 +49,7 @@ class Jornada_Geek_Spider(scrapy.Spider):
         yield SeleniumRequest( 
             url = 'https://www.jornadageek.com.br/novidades/', 
             wait_time = 2, 
-            callback = self.parse, 
-            dont_filter = True) 
+            callback = self.parse) 
 
     def parse(self, response):
         news_titles_href = response.css('.td-module-title a::attr(href)')
