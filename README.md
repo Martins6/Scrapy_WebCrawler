@@ -13,9 +13,9 @@ git clone https://github.com/Martins6/WebCrawler
 Then install Anaconda for package distribution. Follow this link for more [information](https://docs.anaconda.com/anaconda/install/linux/). Then run the following command in this project directory:
 
 ```{bash}
-conda envname create -f freeze.yml
+conda env create -f freeze.yml
 ```
-Change envname for the name of the environment that you want.
+It will automatically create the Anaconda environment needeed for the whole project. The name of the environment will be "webcrawler".
 
 You're also going to need the Chrome browser to perfom the crawling of the "Jornada Geek" site.
 
