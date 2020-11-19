@@ -3,21 +3,14 @@ import datetime
 import json
 from pathlib import Path
 
-def file_len(fname):
-    with Path(fname).open() as f:
-        n = 0
-        for l in f:
-            n += 1
-    return n
-
 # Get separate data from Crawlers
 t1 = datetime.datetime.now()
 os.system('cd Crawlers/jornada_geek_crawler && scrapy crawl jornadageek -o data.jl')
 os.system('cd Crawlers/jovem_nerd_crawler && scrapy crawl jovemnerd -o data.jl')
 os.system('cd Crawlers/tecmundo_crawler && scrapy crawl tecmundo -o data.jl')
 t2 = datetime.datetime.now()
-delta_time = t2 - t1
-print(f'Crawl duration: {delta_time}')
+crawl_duration = t2 - t1
+
 
 # Writing out a single big data
 def duplicate_news(json_line_dict, json_file_dict, key = 'url'):
@@ -37,11 +30,18 @@ def duplicate_news(json_line_dict, json_file_dict, key = 'url'):
     return(flag)
 
 # Proof of incremental load
+def file_len(fname):
+    with Path(fname).open() as f:
+        n = 0
+        for l in f:
+            n += 1
+    return n
+
 try:
     initial_len = file_len('crawled_data.jl')
 except:
     initial_len = 0
-#]#
+
 crawlers = ['jovem_nerd_crawler', 'tecmundo_crawler', 'jornada_geek_crawler']
 data_folder = Path('Crawlers')
 
@@ -55,5 +55,8 @@ with Path('crawled_data.jl').open('a') as big_file:
         # Delete file
         data_file.unlink()
 
-print(f"BEFORE CRAWL: {initial_len}")
-print(f"AFTER CRAWL: {file_len('crawled_data.jl')}")
+
+print(f'WHOLE PROCESS DURATION: {datetime.datetime.now() - t1}')
+print(f'CRAWL DURATION: {crawl_duration}')
+print(f"NEWS # BEFORE CRAWL: {initial_len}")
+print(f"NEWS # AFTER CRAWL: {file_len('crawled_data.jl')}")
