@@ -19,6 +19,10 @@ NEWSPIDER_MODULE = 'jovem_nerd_crawler.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+LOG_ENABLED = True
+LOG_LEVEL = 'INFO' # Levels: CRITICAL, ERROR, WARNING, INFO, DEBUG
+LOG_FILE = 'logfile_jovem_nerd.log'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 

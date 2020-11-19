@@ -59,5 +59,6 @@ class Jovem_Nerd_Spider(scrapy.Spider):
             'date': extract('.postedon::text', 'date'),
             'tag': extract('.post-tags a::text'),
             'url': response.url,
-            'n_paragraphs': n_paragraph
+            'n_paragraphs': n_paragraph,
+            'source': 'Jovem Nerd'
         }

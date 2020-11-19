@@ -32,7 +32,14 @@ class Tecmundo_Spider(scrapy.Spider):
                 corpus = my_utils.delete_since('PUBLICIDADE', corpus)
                 return len(corpus), glue_together_text(corpus)
             elif obj == 'date':
-                return response.css(query).get(default='').strip().split('/')
+                def remove_strings(arg_list, string):
+                    for arg in arg_list:
+                        string = string.replace(arg, '')
+                    return string
+                date_list = remove_strings(['<strong>', '</strong>'], \
+                    response.css(query).get(default='').strip())
+                date_list = date_list.split('/')
+                return date_list
 
         n_paragraph, corpus = extract('.//p//text()', 'corpus')
 
@@ -44,5 +51,6 @@ class Tecmundo_Spider(scrapy.Spider):
             'date': extract('#js-article-date strong', 'date'),
             'tag': extract('.tec--badge--primary::text'),
             'url': response.url,
-            'n_paragraphs': n_paragraph
+            'n_paragraphs': n_paragraph,
+            'source': 'Tecmundo'
         }

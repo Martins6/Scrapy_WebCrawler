@@ -112,5 +112,6 @@ class Jornada_Geek_Spider(scrapy.Spider):
             'date': extract('.td-post-title .td-module-date::text', 'date'),
             'tag': extract('.entry-category a::text'),
             'url': response.url,
-            'n_paragraphs': n_paragraphs
+            'n_paragraphs': n_paragraphs,
+            'source': 'Jornada Geek'
         }
