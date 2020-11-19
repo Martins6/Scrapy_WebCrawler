@@ -66,5 +66,11 @@ Ainda tentei consertar os erros do Scrapy-Selenium, porém desisti e ficarei ape
 
 Terminei a implementação do Scrapy com o Tecmundo.
 
-Decidi usar Docker com MySql para implementar o 
+Voltei atrás novamente e corrigi os erros com o site da Jornada Geek. Embora ainda demore 5 minutos pelo menos é possível utilizar os dados.
+
+Criei scripts para juntar todos os dados em um arquivo só. Nesse script faz se a checagem se os dados adicionados já são existentes no "grande arquivo".
+
+Decidi usar Anaconda para fazer o deploy dessa aplicação e adicionei o environment que utilizei em *freeze.yml* .
+
+Comecei a fazer o Topic Modelling, mas não conseguirei terminar até 00h. Porém, é só um exemplo e não foi exatamente requisitado pelo desafio.
 
