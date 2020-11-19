@@ -14,8 +14,9 @@ Then install Anaconda for package distribution. Follow this link for more [infor
 
 ```{bash}
 conda env create -f freeze.yml
+conda activate webcrawler
 ```
-It will automatically create the Anaconda environment needeed for the whole project. The name of the environment will be "webcrawler".
+It will automatically create the Anaconda environment needeed for the whole project and activate it. The name of the environment will be "webcrawler". 
 
 You're also going to need the Chrome browser to perfom the crawling of the "Jornada Geek" site.
 
